@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Rastreador De Peças</title>
+
+    <meta name="description" content="Rastreador de peças.">
+    <meta name="author" content="Arllan Pablo">
+
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <link href="css/bootstrap-tour.min.css" rel="stylesheet">
+
+  </head>
+  <body>
+
+    <div class="container-fluid">
+	<div class="row">
+		<div class="col-md-3">
+		</div>
+		<div class="col-md-6 linha-formulario">
+      <div class="well">
+      	<div class="input-group">
+		      <input type="text" class="form-control" id="texto" placeholder="Digite o código da peça">
+		      <div class="input-group-addon" data-toggle="tooltip" data-placement="right" title="Teste do titulo" ><span class="glyphicon glyphicon-question-sign"></span> </div>
+		    </div>
+        <button id="botao-procurar" type="button" class="btn btn-primary btn-lg btn-block">Buscar</button>
+      		
+      </div>
+		</div>
+		<div class="col-md-3">
+      		<iframe hidden="hidden" id="iframeConexao"></iframe>
+		</div>
+	</div>
+</div>
+
+	<div id="modal-pergunta" class="modal fade" tabindex="-1" role="dialog">
+	  <div class="modal-dialog modal-sm" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	        <!--
+	        <h4 class="modal-title">Modal title</h4>
+	     	-->
+	      </div>
+	      <div class="modal-body">
+	      	<center>
+	      		<p>Seja bem vindo ao localizador de peças&hellip;</p>
+	      	</center>
+	      </div>
+	      <div class="modal-footer">
+	      	<center>
+		      	<button id="Ativar-modo-tutorial" type="button" class="btn btn-success" data-dismiss="modal"><span class="glyphicon glyphicon-ok-sign"></span> Iniciar Tutorial</button>
+		      	<button type="button" class="btn btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-plus-sign"></span> já sei utilizar</button>
+	      	</center>
+	      </div>
+	    </div><!-- /.modal-content -->
+	  </div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/bootstrap-tour.min.js"></script>
+    <script type="text/javascript">
+    	// Instance the tour
+		var tour = new Tour({
+		  steps: [
+		  {
+		    element: "#texto",
+		    title: "Vamos começar?",
+		    content: "Digite o código da peça."
+		  },
+		  {
+		    element: "#botao-procurar",
+		    title: "Botão de busca",
+		    content: "Agora e só clicar no botão buscar e vamos procurar no banco de dados do Ldraw"
+		  }
+		],
+			keyboard: true,
+			storage:false,
+			backdrop: true,
+		});
+
+
+    </script>
+    <script type="text/javascript">
+      $("#botao-procurar").on('click', localizarPeca);
+
+      function localizarPeca() {
+         console.log($("#texto").val());
+         var extensao = '.dat';
+         var texto = $("#texto").val();
+         var acao = $("#iframeConexao");
+
+         acao.attr("src","http://www.ldraw.org/library/official/parts/"+texto+extensao);
+         console.log(acao);
+        // console.log("Titulo" + acao.contents().find('title').text());
+      }
+
+      // modal perguntando se quer começar no modo tutorial
+
+      $('#modal-pergunta').modal('show');
+
+      $("#Ativar-modo-tutorial").on('click',AtivarModoTutorial);
+
+      function AtivarModoTutorial() {
+      	// Initialize the tour
+		tour.init();
+
+		// Start the tour
+		tour.start();
+      }
+
+    </script>
+  </body>
+</html>
